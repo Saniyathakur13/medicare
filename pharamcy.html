@@ -1,0 +1,2743 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MediCare - Complete Medicine Information</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        /* ===== RESET & VARIABLES ===== */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        :root {
+            --primary: #2563eb;
+            --secondary: #1e40af;
+            --accent: #dc2626;
+            --success: #16a34a;
+            --warning: #d97706;
+            --light: #f8fafc;
+            --dark: #1e293b;
+            --gray: #64748b;
+        }
+
+        body {
+            background-color: #f1f5f9;
+            color: #334155;
+            line-height: 1.6;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        /* ===== EMERGENCY BANNER ===== */
+        .emergency-banner {
+            background: linear-gradient(90deg, var(--accent), #b91c1c);
+            color: white;
+            padding: 12px 0;
+            text-align: center;
+            font-weight: 600;
+            font-size: 0.95rem;
+        }
+
+        .emergency-banner i {
+            margin-right: 10px;
+        }
+
+        /* ===== HEADER ===== */
+        header {
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            color: white;
+            padding: 1rem 0;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .header-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .logo i {
+            font-size: 2.2rem;
+            color: white;
+        }
+
+        .logo h1 {
+            font-size: 1.8rem;
+            font-weight: 700;
+        }
+
+        .logo span {
+            color: #93c5fd;
+        }
+
+        nav ul {
+            display: flex;
+            list-style: none;
+            gap: 20px;
+        }
+
+        nav a {
+            color: white;
+            text-decoration: none;
+            font-weight: 500;
+            padding: 8px 12px;
+            border-radius: 4px;
+            transition: all 0.3s ease;
+        }
+
+        nav a:hover, nav a.active {
+            background: rgba(255, 255, 255, 0.15);
+        }
+
+        .mobile-menu-btn {
+            display: none;
+            background: none;
+            border: none;
+            color: white;
+            font-size: 1.5rem;
+            cursor: pointer;
+        }
+
+        /* ===== HERO SECTION ===== */
+        .hero {
+            background: linear-gradient(rgba(37, 99, 235, 0.9), rgba(30, 64, 175, 0.95));
+            color: white;
+            padding: 4rem 0;
+            text-align: center;
+        }
+
+        .hero h2 {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+        }
+
+        .hero p {
+            font-size: 1.1rem;
+            max-width: 700px;
+            margin: 0 auto 2rem;
+            opacity: 0.9;
+        }
+
+        .search-container {
+            max-width: 600px;
+            margin: 2rem auto;
+        }
+
+        .search-box {
+            display: flex;
+            background: white;
+            border-radius: 50px;
+            overflow: hidden;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+        }
+
+        .search-box input {
+            flex: 1;
+            padding: 15px 20px;
+            border: none;
+            font-size: 1rem;
+            outline: none;
+        }
+
+        .search-box button {
+            background: var(--accent);
+            color: white;
+            border: none;
+            padding: 0 25px;
+            cursor: pointer;
+            font-size: 1.1rem;
+            transition: background 0.3s;
+        }
+
+        .search-box button:hover {
+            background: #b91c1c;
+        }
+
+        /* ===== MEDICINE DATABASE ===== */
+        .medicine-db {
+            padding: 4rem 0;
+        }
+
+        .section-title {
+            text-align: center;
+            margin-bottom: 2.5rem;
+        }
+
+        .section-title h2 {
+            font-size: 2rem;
+            color: var(--primary);
+            margin-bottom: 0.5rem;
+        }
+
+        .section-title p {
+            color: var(--gray);
+            max-width: 700px;
+            margin: 0 auto;
+        }
+
+        .database-info {
+            text-align: center;
+            margin: 20px 0;
+            padding: 10px;
+            background: #e0f2fe;
+            border-radius: 8px;
+            color: var(--primary);
+            font-size: 0.9rem;
+        }
+
+        .filter-options {
+            display: flex;
+            justify-content: center;
+            gap: 12px;
+            margin-bottom: 30px;
+            flex-wrap: wrap;
+        }
+
+        .filter-btn {
+            padding: 8px 16px;
+            background: white;
+            border: 2px solid var(--primary);
+            color: var(--primary);
+            border-radius: 20px;
+            cursor: pointer;
+            font-weight: 500;
+            transition: all 0.3s;
+            font-size: 0.9rem;
+        }
+
+        .filter-btn.active, .filter-btn:hover {
+            background: var(--primary);
+            color: white;
+        }
+
+        .medicine-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 25px;
+            margin-bottom: 40px;
+        }
+
+        .medicine-card {
+            background: white;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.08);
+            transition: transform 0.3s, box-shadow 0.3s;
+            border-top: 4px solid var(--primary);
+        }
+
+        .medicine-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
+        }
+
+        .medicine-header {
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            color: white;
+            padding: 20px;
+            position: relative;
+        }
+
+        .medicine-name {
+            font-size: 1.3rem;
+            margin-bottom: 5px;
+            font-weight: 600;
+        }
+
+        .medicine-type {
+            display: inline-block;
+            background: rgba(255, 255, 255, 0.2);
+            padding: 3px 10px;
+            border-radius: 15px;
+            font-size: 0.8rem;
+            margin-top: 5px;
+        }
+
+        .medicine-body {
+            padding: 20px;
+        }
+
+        .medicine-info {
+            margin-bottom: 12px;
+        }
+
+        .medicine-info label {
+            font-weight: 600;
+            color: var(--primary);
+            display: block;
+            margin-bottom: 3px;
+            font-size: 0.9rem;
+        }
+
+        .medicine-info span {
+            color: var(--dark);
+            font-size: 0.95rem;
+        }
+
+        .warning-box {
+            background: #fef2f2;
+            border-left: 4px solid var(--accent);
+            padding: 10px 15px;
+            margin-top: 15px;
+            border-radius: 0 4px 4px 0;
+            font-size: 0.9rem;
+        }
+
+        .warning-box i {
+            color: var(--accent);
+            margin-right: 5px;
+        }
+
+        /* ===== DISEASES SECTION ===== */
+        .diseases {
+            padding: 4rem 0;
+            background-color: #f8fafc;
+        }
+
+        .disease-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 25px;
+            margin-top: 30px;
+        }
+
+        .disease-card {
+            background: white;
+            border-radius: 10px;
+            padding: 25px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.08);
+            transition: transform 0.3s, box-shadow 0.3s;
+            border-top: 4px solid var(--primary);
+        }
+
+        .disease-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
+        }
+
+        .disease-card h3 {
+            color: var(--primary);
+            margin-bottom: 15px;
+            font-size: 1.3rem;
+        }
+
+        .disease-card h3 i {
+            margin-right: 10px;
+        }
+
+        .disease-symptoms {
+            margin: 15px 0;
+            padding-left: 20px;
+        }
+
+        .disease-symptoms li {
+            margin-bottom: 5px;
+            color: var(--dark);
+        }
+
+        .disease-medicines {
+            background: #e0f2fe;
+            padding: 15px;
+            border-radius: 8px;
+            margin-top: 15px;
+        }
+
+        .disease-medicines h4 {
+            color: var(--secondary);
+            margin-bottom: 8px;
+            font-size: 1rem;
+        }
+
+        .medicine-tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+        }
+
+        .medicine-tag {
+            background: var(--primary);
+            color: white;
+            padding: 5px 10px;
+            border-radius: 15px;
+            font-size: 0.85rem;
+            cursor: pointer;
+            transition: background 0.3s;
+        }
+
+        .medicine-tag:hover {
+            background: var(--secondary);
+        }
+
+        /* ===== SAFETY SECTION ===== */
+        .safety {
+            padding: 4rem 0;
+            background-color: white;
+        }
+
+        .safety-cards {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 25px;
+        }
+
+        .safety-card {
+            background: #f8fafc;
+            border-radius: 10px;
+            padding: 25px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+            border-left: 4px solid;
+        }
+
+        .safety-card.danger {
+            border-left-color: var(--accent);
+        }
+
+        .safety-card.warning {
+            border-left-color: var(--warning);
+        }
+
+        .safety-card.success {
+            border-left-color: var(--success);
+        }
+
+        .safety-card h3 {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 15px;
+            color: var(--dark);
+        }
+
+        .safety-card ul {
+            padding-left: 20px;
+        }
+
+        .safety-card li {
+            margin-bottom: 8px;
+            color: var(--dark);
+        }
+
+        .safety-alert-box {
+            background: #fef2f2;
+            border: 2px solid var(--accent);
+            border-radius: 8px;
+            padding: 20px;
+            margin-top: 30px;
+        }
+
+        .safety-alert-box h3 {
+            color: var(--accent);
+            margin-bottom: 10px;
+        }
+
+        .safety-alert-box p {
+            color: var(--dark);
+        }
+
+        /* ===== FOOTER ===== */
+        footer {
+            background: var(--dark);
+            color: white;
+            padding: 3rem 0 1.5rem;
+        }
+
+        .footer-content {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 30px;
+            margin-bottom: 2rem;
+        }
+
+        .footer-section h3 {
+            font-size: 1.2rem;
+            margin-bottom: 15px;
+            color: #93c5fd;
+        }
+
+        .footer-section ul {
+            list-style: none;
+        }
+
+        .footer-section ul li {
+            margin-bottom: 8px;
+        }
+
+        .footer-section a {
+            color: #cbd5e1;
+            text-decoration: none;
+            transition: color 0.3s;
+        }
+
+        .footer-section a:hover {
+            color: white;
+        }
+
+        .copyright {
+            text-align: center;
+            padding-top: 1.5rem;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            color: #94a3b8;
+            font-size: 0.85rem;
+        }
+
+        /* ===== LOADING & UTILITY ===== */
+        .loading {
+            text-align: center;
+            padding: 40px;
+            grid-column: 1 / -1;
+        }
+
+        .loading i {
+            font-size: 2rem;
+            color: var(--primary);
+            margin-bottom: 10px;
+        }
+
+        .add-medicine-btn {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            background: var(--success);
+            color: white;
+            border: none;
+            padding: 12px 20px;
+            border-radius: 50px;
+            cursor: pointer;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+            font-weight: 600;
+            z-index: 100;
+        }
+
+        .add-medicine-btn i {
+            margin-right: 5px;
+        }
+
+        /* ===== RESPONSIVE DESIGN ===== */
+        @media (max-width: 768px) {
+            .mobile-menu-btn {
+                display: block;
+            }
+            
+            nav ul {
+                position: fixed;
+                top: 70px;
+                left: -100%;
+                flex-direction: column;
+                background: var(--secondary);
+                width: 100%;
+                padding: 20px;
+                transition: left 0.3s;
+                box-shadow: 0 5px 10px rgba(0, 0, 0, 0.1);
+            }
+            
+            nav ul.active {
+                left: 0;
+            }
+            
+            .hero {
+                padding: 3rem 0;
+            }
+            
+            .hero h2 {
+                font-size: 1.8rem;
+            }
+            
+            .medicine-grid {
+                grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            }
+        }
+
+        @media (max-width: 480px) {
+            .hero h2 {
+                font-size: 1.5rem;
+            }
+            
+            .search-box input {
+                padding: 12px 15px;
+                font-size: 0.9rem;
+            }
+            
+            .filter-options {
+                flex-direction: column;
+                align-items: center;
+            }
+            
+            .filter-btn {
+                width: 80%;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Emergency Banner -->
+    <div class="emergency-banner">
+        <i class="fas fa-exclamation-triangle"></i>
+        EMERGENCY: Call 911 or Poison Control (1-800-222-1222) for medicine overdose
+    </div>
+
+    <!-- Header -->
+    <header>
+        <div class="container header-container">
+            <div class="logo">
+                <i class="fas fa-pills"></i>
+                <h1>Medi<span>Care</span></h1>
+            </div>
+            
+            <button class="mobile-menu-btn" id="mobileMenuBtn">
+                <i class="fas fa-bars"></i>
+            </button>
+            
+            <nav>
+                <ul id="navMenu">
+                    <li><a href="#home" class="active">Home</a></li>
+                    <li><a href="#database">Medicines</a></li>
+                    <li><a href="#diseases">Diseases</a></li>
+                    <li><a href="#safety">Safety</a></li>
+                    <li><a href="#about">About</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <!-- Hero Section -->
+    <section class="hero" id="home">
+        <div class="container">
+            <h2>Your Complete Medicine Guide</h2>
+            <p>Accurate information for 100+ essential medicines covering all major diseases</p>
+            
+            <div class="search-container">
+                <div class="search-box">
+                    <input type="text" id="medicineSearch" placeholder="Search medicine or disease (e.g., Aspirin, Diabetes, AIDS, Pain)">
+                    <button id="searchBtn">
+                        <i class="fas fa-search"></i> Search
+                    </button>
+                </div>
+            </div>
+            
+            <p><i class="fas fa-info-circle"></i> Information verified from trusted medical sources</p>
+        </div>
+    </section>
+
+    <!-- Medicine Database -->
+    <section class="medicine-db" id="database">
+        <div class="container">
+            <div class="section-title">
+                <h2>Medicine Database</h2>
+                <p>Essential medicines covering all major disease categories</p>
+            </div>
+
+            <div class="database-info">
+                <i class="fas fa-database"></i> 
+                <strong>100 Essential Medicines</strong> | Updated Daily | Complete Information
+            </div>
+
+            <div class="filter-options">
+                <button class="filter-btn active" data-filter="all">All Medicines</button>
+                <button class="filter-btn" data-filter="antibiotic">Antibiotics</button>
+                <button class="filter-btn" data-filter="pain">Pain Relief</button>
+                <button class="filter-btn" data-filter="heart">Heart & BP</button>
+                <button class="filter-btn" data-filter="diabetes">Diabetes</button>
+                <button class="filter-btn" data-filter="mental">Mental Health</button>
+                <button class="filter-btn" data-filter="respiratory">Breathing</button>
+                <button class="filter-btn" data-filter="stomach">Stomach</button>
+                <button class="filter-btn" data-filter="hiv">HIV/AIDS</button>
+            </div>
+
+            <div class="medicine-grid" id="medicineGrid">
+                <!-- Medicines will be loaded here -->
+            </div>
+
+            <div style="text-align: center; margin-top: 30px;">
+                <button id="loadMoreBtn" style="
+                    background: var(--primary);
+                    color: white;
+                    border: none;
+                    padding: 12px 30px;
+                    border-radius: 50px;
+                    cursor: pointer;
+                    font-size: 1rem;
+                    display: none;
+                ">
+                    <i class="fas fa-plus"></i> Load More Medicines
+                </button>
+            </div>
+        </div>
+    </section>
+
+    <!-- Diseases Section -->
+    <section class="diseases" id="diseases">
+        <div class="container">
+            <div class="section-title">
+                <h2>Common Diseases & Treatments</h2>
+                <p>Learn about common diseases and their standard medical treatments</p>
+            </div>
+
+            <div class="disease-grid">
+                <!-- Disease cards will be loaded here -->
+            </div>
+        </div>
+    </section>
+
+    <!-- Safety Section -->
+    <section class="safety" id="safety">
+        <div class="container">
+            <div class="section-title">
+                <h2>Medicine Safety Guidelines</h2>
+                <p>Important safety information for proper medication use</p>
+            </div>
+
+            <div class="safety-content">
+                <div class="safety-cards">
+                    <!-- Safety cards will be loaded here -->
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer id="about">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h3>MediCare</h3>
+                    <p>Providing accurate medicine information for better health decisions.</p>
+                    <p><i class="fas fa-phone"></i> Emergency: 911</p>
+                    <p><i class="fas fa-phone-alt"></i> Poison Control: 1-800-222-1222</p>
+                </div>
+                
+                <div class="footer-section">
+                    <h3>Quick Links</h3>
+                    <ul>
+                        <li><a href="#home">Home</a></li>
+                        <li><a href="#database">Medicine Database</a></li>
+                        <li><a href="#diseases">Disease Guide</a></li>
+                        <li><a href="#safety">Safety Tips</a></li>
+                    </ul>
+                </div>
+                
+                <div class="footer-section">
+                    <h3>Important</h3>
+                    <ul>
+                        <li><a href="#" onclick="showDisclaimer()">Medical Disclaimer</a></li>
+                        <li><a href="#" onclick="showPrivacy()">Privacy Policy</a></li>
+                        <li><a href="#" onclick="showTerms()">Terms of Use</a></li>
+                        <li><a href="#" onclick="showContact()">Contact Us</a></li>
+                    </ul>
+                </div>
+                
+                <div class="footer-section">
+                    <h3>Disclaimer</h3>
+                    <p style="font-size: 0.85rem; color: #94a3b8;">
+                        This website provides educational information only. It is not medical advice. 
+                        Always consult a healthcare professional for medical decisions.
+                    </p>
+                </div>
+            </div>
+            
+            <div class="copyright">
+                <p>&copy; 2023 MediCare - Complete Medicine Guide. For educational purposes.</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Add Medicine Button -->
+    <button class="add-medicine-btn" id="addMedicineBtn" style="display: none;">
+        <i class="fas fa-plus"></i> Add Medicine
+    </button>
+
+    <script>
+        // ============================================
+        // SIMPLIFIED MEDICINE DATABASE (33 ESSENTIAL MEDICINES)
+        // ============================================
+        const medicines = [
+            {
+                id: 1,
+                name: "Aspirin",
+                generic: "Acetylsalicylic Acid",
+                type: "OTC",
+                class: "NSAID",
+                category: "pain",
+                uses: "Pain relief, fever reduction, prevents heart attacks and strokes",
+                dosage: "81-325mg daily for heart; 325-650mg every 4-6 hours for pain",
+                sideEffects: "Stomach bleeding, ulcers, ringing in ears",
+                interactions: "Blood thinners, other NSAIDs, alcohol",
+                warning: "DO NOT give to children under 16",
+                manufacturer: "Various"
+            },
+            {
+                id: 2,
+                name: "Ibuprofen",
+                generic: "Ibuprofen",
+                type: "OTC",
+                class: "NSAID",
+                category: "pain",
+                uses: "Pain, fever, inflammation, arthritis, menstrual cramps",
+                dosage: "200-400mg every 4-6 hours",
+                sideEffects: "Stomach ulcers, kidney damage, heart attack risk",
+                interactions: "Alcohol, blood thinners, ACE inhibitors",
+                warning: "Take with food",
+                manufacturer: "Advil, Motrin"
+            },
+            {
+                id: 3,
+                name: "Acetaminophen",
+                generic: "Paracetamol",
+                type: "OTC",
+                class: "Analgesic",
+                category: "pain",
+                uses: "Pain and fever relief",
+                dosage: "325-650mg every 4-6 hours",
+                sideEffects: "Liver damage in overdose",
+                interactions: "Alcohol, warfarin",
+                warning: "MAX 3000mg per day",
+                manufacturer: "Tylenol"
+            },
+            {
+                id: 4,
+                name: "Amoxicillin",
+                generic: "Amoxicillin",
+                type: "Prescription",
+                class: "Penicillin Antibiotic",
+                category: "antibiotic",
+                uses: "Ear/nose/throat infections, pneumonia, skin infections, UTI",
+                dosage: "250-500mg every 8 hours for 7-14 days",
+                sideEffects: "Diarrhea, nausea, rash, yeast infection",
+                interactions: "Birth control pills",
+                warning: "Complete full course",
+                manufacturer: "Various"
+            },
+            {
+                id: 5,
+                name: "Azithromycin",
+                generic: "Azithromycin",
+                type: "Prescription",
+                class: "Macrolide Antibiotic",
+                category: "antibiotic",
+                uses: "Respiratory infections, pneumonia, STDs, skin infections",
+                dosage: "500mg day 1, then 250mg daily for 4 days",
+                sideEffects: "Diarrhea, nausea, abdominal pain",
+                interactions: "Antacids",
+                warning: "Take 2 hours before antacids",
+                manufacturer: "Zithromax"
+            },
+            {
+                id: 6,
+                name: "Lisinopril",
+                generic: "Lisinopril",
+                type: "Prescription",
+                class: "ACE Inhibitor",
+                category: "heart",
+                uses: "High blood pressure, heart failure, heart attack prevention",
+                dosage: "10-40mg once daily",
+                sideEffects: "Dry cough, dizziness, high potassium",
+                interactions: "Potassium supplements, diuretics, NSAIDs",
+                warning: "May cause swelling of face/lips",
+                manufacturer: "Zestril"
+            },
+            {
+                id: 7,
+                name: "Atorvastatin",
+                generic: "Atorvastatin",
+                type: "Prescription",
+                class: "Statin",
+                category: "heart",
+                uses: "High cholesterol, prevents heart attacks and strokes",
+                dosage: "10-80mg once daily",
+                sideEffects: "Muscle pain, liver problems, memory issues",
+                interactions: "Grapefruit juice, certain antibiotics",
+                warning: "Report muscle pain immediately",
+                manufacturer: "Lipitor"
+            },
+            {
+                id: 8,
+                name: "Metformin",
+                generic: "Metformin",
+                type: "Prescription",
+                class: "Biguanide",
+                category: "diabetes",
+                uses: "Type 2 diabetes, PCOS",
+                dosage: "500-1000mg twice daily with meals",
+                sideEffects: "Diarrhea, nausea, B12 deficiency",
+                interactions: "Alcohol, contrast dyes",
+                warning: "Risk of lactic acidosis",
+                manufacturer: "Glucophage"
+            },
+            {
+                id: 9,
+                name: "Sertraline",
+                generic: "Sertraline",
+                type: "Prescription",
+                class: "SSRI",
+                category: "mental",
+                uses: "Depression, anxiety, OCD, PTSD",
+                dosage: "50-200mg once daily",
+                sideEffects: "Nausea, sexual dysfunction, insomnia, weight gain",
+                interactions: "MAOIs, blood thinners",
+                warning: "Do not stop abruptly",
+                manufacturer: "Zoloft"
+            },
+            {
+                id: 10,
+                name: "Alprazolam",
+                generic: "Alprazolam",
+                type: "Prescription",
+                class: "Benzodiazepine",
+                category: "mental",
+                uses: "Anxiety, panic attacks",
+                dosage: "0.25-0.5mg three times daily",
+                sideEffects: "Drowsiness, dependence, memory issues",
+                interactions: "Alcohol, opioids, other sedatives",
+                warning: "HIGHLY ADDICTIVE. Short-term use only",
+                manufacturer: "Xanax"
+            },
+            {
+                id: 11,
+                name: "Albuterol",
+                generic: "Albuterol",
+                type: "Prescription",
+                class: "Bronchodilator",
+                category: "respiratory",
+                uses: "Asthma, COPD relief",
+                dosage: "1-2 inhalations every 4-6 hours",
+                sideEffects: "Tremor, fast heartbeat, nervousness",
+                interactions: "Beta blockers, other bronchodilators",
+                warning: "Overuse can worsen asthma",
+                manufacturer: "ProAir, Ventolin"
+            },
+            {
+                id: 12,
+                name: "Omeprazole",
+                generic: "Omeprazole",
+                type: "OTC/Prescription",
+                class: "Proton Pump Inhibitor",
+                category: "stomach",
+                uses: "GERD, ulcers, acid reflux",
+                dosage: "20-40mg once daily before breakfast",
+                sideEffects: "Headache, diarrhea, B12 deficiency",
+                interactions: "Clopidogrel, certain antifungals",
+                warning: "Long-term use increases fracture risk",
+                manufacturer: "Prilosec"
+            },
+            // HIV/AIDS MEDICINES
+            {
+                id: 13,
+                name: "Tenofovir/Emtricitabine",
+                generic: "Tenofovir DF/Emtricitabine",
+                type: "Prescription",
+                class: "NRTI",
+                category: "hiv",
+                uses: "HIV treatment and prevention (PrEP)",
+                dosage: "One tablet daily",
+                sideEffects: "Kidney issues, bone loss, lactic acidosis",
+                interactions: "Other HIV drugs, certain antibiotics",
+                warning: "Regular kidney function monitoring required",
+                manufacturer: "Truvada"
+            },
+            {
+                id: 14,
+                name: "Dolutegravir",
+                generic: "Dolutegravir",
+                type: "Prescription",
+                class: "Integrase Inhibitor",
+                category: "hiv",
+                uses: "HIV treatment",
+                dosage: "50mg once or twice daily",
+                sideEffects: "Insomnia, headache, increased liver enzymes",
+                interactions: "Antacids, certain antibiotics",
+                warning: "May cause birth defects",
+                manufacturer: "Tivicay"
+            },
+            // CANCER MEDICINES
+            {
+                id: 15,
+                name: "Tamoxifen",
+                generic: "Tamoxifen",
+                type: "Prescription",
+                class: "SERM",
+                category: "cancer",
+                uses: "Breast cancer treatment and prevention",
+                dosage: "20mg once daily",
+                sideEffects: "Hot flashes, blood clots, uterine cancer",
+                interactions: "Warfarin, SSRIs",
+                warning: "Increased risk of blood clots",
+                manufacturer: "Nolvadex"
+            },
+            // ===== DIABETES (10 medicines) =====
+
+            {
+                id: 16,
+                name: "Metformin",
+                generic: "Metformin",
+                type: "Prescription",
+                class: "Biguanide",
+                category: "diabetes",
+                uses: "Type 2 diabetes, PCOS, prediabetes",
+                dosage: "500-1000mg twice daily with meals",
+                sideEffects: "Diarrhea, nausea, B12 deficiency, lactic acidosis",
+                interactions: "Alcohol, contrast dyes, certain heart drugs",
+                warning: "Risk of lactic acidosis with kidney problems",
+                manufacturer: "Glucophage"
+            },
+            
+            {
+                id: 17,
+                name: "Insulin Glargine",
+                generic: "Insulin Glargine",
+                type: "Prescription",
+                class: "Long-acting Insulin",
+                category: "diabetes",
+                uses: "Type 1 and Type 2 diabetes",
+                dosage: "Individualized, usually once daily at bedtime",
+                sideEffects: "Hypoglycemia, weight gain, injection site reactions",
+                interactions: "Other diabetes medications",
+                warning: "Monitor blood sugar carefully to avoid dangerous lows",
+                manufacturer: "Lantus"
+            },
+            {
+                id: 18,
+                name: "Glipizide",
+                generic: "Glipizide",
+                type: "Prescription",
+                class: "Sulfonylurea",
+                category: "diabetes",
+                uses: "Type 2 diabetes",
+                dosage: "5-20mg daily before breakfast",
+                sideEffects: "Hypoglycemia, weight gain, skin reactions",
+                interactions: "Alcohol, beta blockers, NSAIDs",
+                warning: "High risk of low blood sugar (hypoglycemia)",
+                manufacturer: "Glucotrol"
+            },
+            {
+                id: 19,
+                name: "Empagliflozin",
+                generic: "Empagliflozin",
+                type: "Prescription",
+                class: "SGLT2 Inhibitor",
+                category: "diabetes",
+                uses: "Type 2 diabetes, heart failure protection",
+                dosage: "10-25mg once daily",
+                sideEffects: "Urinary infections, yeast infections, dehydration",
+                interactions: "Diuretics, insulin, other diabetes drugs",
+                warning: "May cause ketoacidosis even with normal blood sugar",
+                manufacturer: "Jardiance"
+            },
+
+            // ===== MENTAL HEALTH (15 medicines) =====
+            {
+                id: 20,
+                name: "Sertraline",
+                generic: "Sertraline",
+                type: "Prescription",
+                class: "SSRI Antidepressant",
+                category: "mental",
+                uses: "Depression, anxiety, OCD, PTSD, panic disorder",
+                dosage: "50-200mg once daily",
+                sideEffects: "Nausea, sexual dysfunction, insomnia, weight gain",
+                interactions: "MAOIs, blood thinners, other antidepressants",
+                warning: "DO NOT stop abruptly - taper slowly over weeks",
+                manufacturer: "Zoloft"
+            },
+            {
+                id: 21,
+                name: "Escitalopram",
+                generic: "Escitalopram",
+                type: "Prescription",
+                class: "SSRI",
+                category: "mental",
+                uses: "Depression, anxiety disorders",
+                dosage: "10-20mg once daily",
+                sideEffects: "Nausea, insomnia, sexual problems, sweating",
+                interactions: "NSAIDs, other serotonergic drugs",
+                warning: "May increase bleeding risk",
+                manufacturer: "Lexapro"
+            },
+            {
+                id: 22,
+                name: "Alprazolam",
+                generic: "Alprazolam",
+                type: "Prescription",
+                class: "Benzodiazepine",
+                category: "mental",
+                uses: "Anxiety, panic attacks",
+                dosage: "0.25-0.5mg three times daily",
+                sideEffects: "Drowsiness, dependence, memory issues, withdrawal",
+                interactions: "Alcohol, opioids, other sedatives",
+                warning: "HIGHLY ADDICTIVE. Short-term use only (2-4 weeks)",
+                manufacturer: "Xanax"
+            },
+            {
+                id: 23,
+                name: "Quetiapine",
+                generic: "Quetiapine",
+                type: "Prescription",
+                class: "Atypical Antipsychotic",
+                category: "mental",
+                uses: "Bipolar disorder, schizophrenia, depression augmentation",
+                dosage: "25-800mg daily",
+                sideEffects: "Drowsiness, weight gain, diabetes risk, movement disorders",
+                interactions: "Alcohol, other sedatives",
+                warning: "May cause metabolic syndrome and diabetes",
+                manufacturer: "Seroquel"
+            },
+
+            // ===== RESPIRATORY (10 medicines) =====
+            {
+                id: 24,
+                name: "Albuterol",
+                generic: "Albuterol",
+                type: "Prescription",
+                class: "Bronchodilator",
+                category: "respiratory",
+                uses: "Asthma, COPD relief, bronchospasm",
+                dosage: "1-2 inhalations every 4-6 hours as needed",
+                sideEffects: "Tremor, fast heartbeat, nervousness, headache",
+                interactions: "Beta blockers, other bronchodilators",
+                warning: "Overuse can cause paradoxical bronchospasm",
+                manufacturer: "ProAir, Ventolin"
+            },
+            {
+                id: 25,
+                name: "Fluticasone",
+                generic: "Fluticasone",
+                type: "Prescription",
+                class: "Inhaled Corticosteroid",
+                category: "respiratory",
+                uses: "Asthma maintenance, allergic rhinitis",
+                dosage: "1-2 inhalations twice daily",
+                sideEffects: "Thrush, hoarseness, cough, growth suppression in children",
+                interactions: "Other corticosteroids",
+                warning: "Rinse mouth after use to prevent thrush",
+                manufacturer: "Flovent"
+            },
+            {
+                id: 26,
+                name: "Montelukast",
+                generic: "Montelukast",
+                type: "Prescription",
+                class: "Leukotriene Inhibitor",
+                category: "respiratory",
+                uses: "Asthma, allergic rhinitis, exercise-induced asthma",
+                dosage: "10mg once daily in evening",
+                sideEffects: "Headache, behavior changes, suicidal thoughts",
+                interactions: "Phenobarbital, rifampin",
+                warning: "Monitor for mood changes and suicidal thoughts",
+                manufacturer: "Singulair"
+            },
+
+            // ===== STOMACH & DIGESTIVE (10 medicines) =====
+            {
+                id: 27,
+                name: "Omeprazole",
+                generic: "Omeprazole",
+                type: "OTC/Prescription",
+                class: "Proton Pump Inhibitor",
+                category: "stomach",
+                uses: "GERD, ulcers, acid reflux, Zollinger-Ellison syndrome",
+                dosage: "20-40mg once daily before breakfast",
+                sideEffects: "Headache, diarrhea, B12 deficiency, bone fractures",
+                interactions: "Clopidogrel, certain antifungals",
+                warning: "Long-term use may increase fracture and kidney disease risk",
+                manufacturer: "Prilosec"
+            },
+            {
+                id: 28,
+                name: "Ranitidine",
+                generic: "Ranitidine",
+                type: "OTC",
+                class: "H2 Blocker",
+                category: "stomach",
+                uses: "Heartburn, acid indigestion, ulcers",
+                dosage: "75-150mg twice daily",
+                sideEffects: "Headache, constipation, confusion in elderly",
+                interactions: "Ketoconazole, warfarin",
+                warning: "Some products recalled due to NDMA contamination",
+                manufacturer: "Zantac"
+            },
+
+            // ===== THYROID (5 medicines) =====
+            {
+                id: 29,
+                name: "Levothyroxine",
+                generic: "Levothyroxine",
+                type: "Prescription",
+                class: "Thyroid Hormone",
+                category: "thyroid",
+                uses: "Hypothyroidism, thyroid cancer suppression",
+                dosage: "25-200mcg daily on empty stomach",
+                sideEffects: "Palpitations, weight loss, heat intolerance, insomnia",
+                interactions: "Calcium, iron, antacids, soy, fiber",
+                warning: "Take on empty stomach, 30-60 minutes before food",
+                manufacturer: "Synthroid"
+            },
+
+            // ===== ALLERGY (5 medicines) =====
+            {
+                id: 30,
+                name: "Cetirizine",
+                generic: "Cetirizine",
+                type: "OTC",
+                class: "Antihistamine",
+                category: "allergy",
+                uses: "Allergies, hives, allergic rhinitis",
+                dosage: "5-10mg once daily",
+                sideEffects: "Drowsiness, dry mouth, fatigue, headache",
+                interactions: "Alcohol, sedatives, CNS depressants",
+                warning: "May cause drowsiness - use caution when driving",
+                manufacturer: "Zyrtec"
+            },
+            {
+                id: 31,
+                name: "Loratadine",
+                generic: "Loratadine",
+                type: "OTC",
+                class: "Antihistamine",
+                category: "allergy",
+                uses: "Allergy relief, hives",
+                dosage: "10mg once daily",
+                sideEffects: "Headache, fatigue, dry mouth",
+                interactions: "None significant",
+                warning: "Non-drowsy formula, but some people may still feel tired",
+                manufacturer: "Claritin"
+            },
+
+            // ===== BLOOD DISORDERS (5 medicines) =====
+            {
+                id: 32,
+                name: "Clopidogrel",
+                generic: "Clopidogrel",
+                type: "Prescription",
+                class: "Antiplatelet",
+                category: "blood",
+                uses: "Prevents heart attacks and strokes, stent protection",
+                dosage: "75mg once daily",
+                sideEffects: "Bleeding, bruising, rash, diarrhea",
+                interactions: "PPIs, other blood thinners, NSAIDs",
+                warning: "DO NOT stop without doctor advice - risk of clot",
+                manufacturer: "Plavix"
+            },
+
+            // ===== ARTHRITIS (5 medicines) =====
+            {
+                id: 33,
+                name: "Methotrexate",
+                generic: "Methotrexate",
+                type: "Prescription",
+                class: "DMARD",
+                category: "arthritis",
+                uses: "Rheumatoid arthritis, psoriasis, cancer",
+                dosage: "7.5-20mg once weekly",
+                sideEffects: "Liver damage, lung problems, low blood counts, mouth sores",
+                interactions: "NSAIDs, alcohol, live vaccines",
+                warning: "Requires regular blood tests for liver and blood counts",
+                manufacturer: "Various"
+            },
+            // Add these 67 medicines to your existing medicines array (after the first 33)
+
+// ===== HEART & BLOOD PRESSURE (Continued - 10 more) =====
+{
+    id: 34,
+    name: "Losartan",
+    generic: "Losartan",
+    type: "Prescription",
+    class: "ARB",
+    category: "heart",
+    uses: "High blood pressure, diabetic kidney disease, heart failure",
+    dosage: "25-100mg once daily",
+    sideEffects: "Dizziness, high potassium, cough (less than ACE inhibitors)",
+    interactions: "Potassium supplements, NSAIDs, lithium",
+    warning: "May cause fetal harm - avoid in pregnancy",
+    manufacturer: "Cozaar"
+},
+{
+    id: 35,
+    name: "Hydrochlorothiazide",
+    generic: "Hydrochlorothiazide",
+    type: "Prescription",
+    class: "Thiazide Diuretic",
+    category: "heart",
+    uses: "High blood pressure, edema, heart failure",
+    dosage: "12.5-50mg once daily",
+    sideEffects: "Dehydration, low potassium, increased urination, sun sensitivity",
+    interactions: "Lithium, digoxin, corticosteroids",
+    warning: "Monitor electrolyte levels regularly",
+    manufacturer: "Microzide"
+},
+{
+    id: 36,
+    name: "Carvedilol",
+    generic: "Carvedilol",
+    type: "Prescription",
+    class: "Beta Blocker",
+    category: "heart",
+    uses: "High BP, heart failure, after heart attack",
+    dosage: "6.25-25mg twice daily",
+    sideEffects: "Dizziness, fatigue, slow heart rate, weight gain",
+    interactions: "Other heart medications, diabetes drugs",
+    warning: "Do not stop suddenly - taper slowly",
+    manufacturer: "Coreg"
+},
+{
+    id: 37,
+    name: "Spironolactone",
+    generic: "Spironolactone",
+    type: "Prescription",
+    class: "Potassium-sparing Diuretic",
+    category: "heart",
+    uses: "Heart failure, high BP, acne, hormonal hair loss",
+    dosage: "25-100mg once daily",
+    sideEffects: "High potassium, breast tenderness, menstrual irregularities",
+    interactions: "ACE inhibitors, potassium supplements, digoxin",
+    warning: "Monitor potassium levels - can cause dangerous hyperkalemia",
+    manufacturer: "Aldactone"
+},
+{
+    id: 38,
+    name: "Enalapril",
+    generic: "Enalapril",
+    type: "Prescription",
+    class: "ACE Inhibitor",
+    category: "heart",
+    uses: "High BP, heart failure, diabetic kidney disease",
+    dosage: "5-40mg once daily",
+    sideEffects: "Dry cough, dizziness, rash, taste disturbance",
+    interactions: "Potassium supplements, diuretics, lithium",
+    warning: "May cause angioedema (swelling of face/lips)",
+    manufacturer: "Vasotec"
+},
+
+// ===== DIABETES (Continued - 6 more) =====
+{
+    id: 39,
+    name: "Glimepiride",
+    generic: "Glimepiride",
+    type: "Prescription",
+    class: "Sulfonylurea",
+    category: "diabetes",
+    uses: "Type 2 diabetes",
+    dosage: "1-8mg once daily with breakfast",
+    sideEffects: "Hypoglycemia, weight gain, skin reactions",
+    interactions: "Alcohol, beta blockers, NSAIDs",
+    warning: "High risk of low blood sugar - monitor glucose levels",
+    manufacturer: "Amaryl"
+},
+{
+    id: 40,
+    name: "Pioglitazone",
+    generic: "Pioglitazone",
+    type: "Prescription",
+    class: "Thiazolidinedione",
+    category: "diabetes",
+    uses: "Type 2 diabetes",
+    dosage: "15-45mg once daily",
+    sideEffects: "Weight gain, edema, heart failure, bladder cancer risk",
+    interactions: "Insulin, other diabetes medications",
+    warning: "May worsen or cause heart failure - not for patients with heart failure",
+    manufacturer: "Actos"
+},
+{
+    id: 41,
+    name: "Semaglutide",
+    generic: "Semaglutide",
+    type: "Prescription",
+    class: "GLP-1 Agonist",
+    category: "diabetes",
+    uses: "Type 2 diabetes, weight loss",
+    dosage: "0.25-1mg once weekly injection or 3-14mg oral daily",
+    sideEffects: "Nausea, vomiting, diarrhea, pancreatitis risk",
+    interactions: "Other diabetes drugs, oral medications",
+    warning: "Risk of thyroid C-cell tumors - contraindicated in personal/family history",
+    manufacturer: "Ozempic, Wegovy"
+},
+
+// ===== MENTAL HEALTH (Continued - 11 more) =====
+{
+    id: 42,
+    name: "Fluoxetine",
+    generic: "Fluoxetine",
+    type: "Prescription",
+    class: "SSRI",
+    category: "mental",
+    uses: "Depression, OCD, bulimia, panic disorder, PMDD",
+    dosage: "20-80mg once daily",
+    sideEffects: "Nausea, insomnia, anxiety, sexual dysfunction, weight changes",
+    interactions: "MAOIs, tryptophan, blood thinners",
+    warning: "Long half-life - effects last for weeks after stopping",
+    manufacturer: "Prozac"
+},
+{
+    id: 43,
+    name: "Venlafaxine",
+    generic: "Venlafaxine",
+    type: "Prescription",
+    class: "SNRI",
+    category: "mental",
+    uses: "Depression, anxiety, panic disorder, social anxiety",
+    dosage: "75-225mg daily (extended release)",
+    sideEffects: "Nausea, headache, high blood pressure, sweating",
+    interactions: "MAOIs, other serotonergic drugs",
+    warning: "DO NOT stop abruptly - severe withdrawal symptoms",
+    manufacturer: "Effexor XR"
+},
+{
+    id: 44,
+    name: "Bupropion",
+    generic: "Bupropion",
+    type: "Prescription",
+    class: "NDRI",
+    category: "mental",
+    uses: "Depression, smoking cessation, seasonal affective disorder",
+    dosage: "150-300mg daily (SR or XL formulations)",
+    sideEffects: "Insomnia, dry mouth, headache, seizures at high doses",
+    interactions: "MAOIs, other antidepressants, alcohol",
+    warning: "Increased risk of seizures - avoid in seizure disorders",
+    manufacturer: "Wellbutrin, Zyban"
+},
+{
+    id: 45,
+    name: "Diazepam",
+    generic: "Diazepam",
+    type: "Prescription",
+    class: "Benzodiazepine",
+    category: "mental",
+    uses: "Anxiety, muscle spasms, alcohol withdrawal, seizures",
+    dosage: "2-10mg 2-4 times daily as needed",
+    sideEffects: "Drowsiness, dependence, memory impairment, withdrawal",
+    interactions: "Alcohol, opioids, other CNS depressants",
+    warning: "HIGHLY ADDICTIVE. Tolerance develops quickly",
+    manufacturer: "Valium"
+},
+{
+    id: 46,
+    name: "Lorazepam",
+    generic: "Lorazepam",
+    type: "Prescription",
+    class: "Benzodiazepine",
+    category: "mental",
+    uses: "Anxiety, insomnia, sedation before procedures",
+    dosage: "0.5-2mg 2-3 times daily as needed",
+    sideEffects: "Drowsiness, dizziness, weakness, dependence",
+    interactions: "Alcohol, opioids, other sedatives",
+    warning: "Short-acting but highly addictive. Use only short-term",
+    manufacturer: "Ativan"
+},
+{
+    id: 47,
+    name: "Clonazepam",
+    generic: "Clonazepam",
+    type: "Prescription",
+    class: "Benzodiazepine",
+    category: "mental",
+    uses: "Panic disorder, seizures, anxiety",
+    dosage: "0.5-2mg daily (divided doses)",
+    sideEffects: "Drowsiness, coordination problems, dependence, withdrawal",
+    interactions: "Alcohol, opioids, other CNS depressants",
+    warning: "Long-acting but highly addictive. Taper slowly to discontinue",
+    manufacturer: "Klonopin"
+},
+
+// ===== RESPIRATORY (Continued - 7 more) =====
+{
+    id: 48,
+    name: "Prednisone",
+    generic: "Prednisone",
+    type: "Prescription",
+    class: "Corticosteroid",
+    category: "respiratory",
+    uses: "Asthma exacerbation, COPD flare, inflammation, autoimmune diseases",
+    dosage: "5-60mg daily, tapered based on condition",
+    sideEffects: "Weight gain, mood changes, insomnia, high blood sugar, osteoporosis",
+    interactions: "NSAIDs, diuretics, vaccines, diabetes medications",
+    warning: "DO NOT stop suddenly - must taper slowly to avoid adrenal crisis",
+    manufacturer: "Various"
+},
+{
+    id: 49,
+    name: "Salmeterol",
+    generic: "Salmeterol",
+    type: "Prescription",
+    class: "Long-acting Bronchodilator",
+    category: "respiratory",
+    uses: "Asthma maintenance, COPD",
+    dosage: "1 inhalation twice daily",
+    sideEffects: "Headache, tremor, fast heartbeat, paradoxical bronchospasm",
+    interactions: "Beta blockers, other bronchodilators",
+    warning: "NOT for acute asthma attacks - use only with inhaled steroid",
+    manufacturer: "Serevent"
+},
+{
+    id: 50,
+    name: "Ipratropium",
+    generic: "Ipratropium",
+    type: "Prescription",
+    class: "Anticholinergic",
+    category: "respiratory",
+    uses: "COPD, asthma, runny nose",
+    dosage: "1-2 inhalations every 6 hours",
+    sideEffects: "Dry mouth, cough, blurred vision, urinary retention",
+    interactions: "Other anticholinergic drugs",
+    warning: "Avoid getting in eyes - can cause glaucoma exacerbation",
+    manufacturer: "Atrovent"
+},
+
+// ===== STOMACH & DIGESTIVE (Continued - 8 more) =====
+{
+    id: 51,
+    name: "Pantoprazole",
+    generic: "Pantoprazole",
+    type: "Prescription",
+    class: "Proton Pump Inhibitor",
+    category: "stomach",
+    uses: "GERD, erosive esophagitis, Zollinger-Ellison syndrome",
+    dosage: "40mg once daily",
+    sideEffects: "Headache, diarrhea, B12 deficiency, kidney disease risk",
+    interactions: "Clopidogrel, certain antifungals, HIV drugs",
+    warning: "Long-term use associated with fractures and kidney damage",
+    manufacturer: "Protonix"
+},
+{
+    id: 52,
+    name: "Famotidine",
+    generic: "Famotidine",
+    type: "OTC",
+    class: "H2 Blocker",
+    category: "stomach",
+    uses: "Heartburn, acid indigestion, ulcers",
+    dosage: "10-20mg twice daily",
+    sideEffects: "Headache, dizziness, constipation, diarrhea",
+    interactions: "Ketoconazole, atazanavir",
+    warning: "Dose adjustment needed in kidney impairment",
+    manufacturer: "Pepcid"
+},
+{
+    id: 53,
+    name: "Loperamide",
+    generic: "Loperamide",
+    type: "OTC",
+    class: "Antidiarrheal",
+    category: "stomach",
+    uses: "Diarrhea control",
+    dosage: "4mg initially, then 2mg after each loose stool (max 16mg/day)",
+    sideEffects: "Constipation, dizziness, abdominal pain",
+    interactions: "Other antidiarrheals, quinidine",
+    warning: "Do not use in infectious diarrhea without doctor approval",
+    manufacturer: "Imodium"
+},
+
+// ===== ALLERGY (Continued - 3 more) =====
+{
+    id: 54,
+    name: "Fexofenadine",
+    generic: "Fexofenadine",
+    type: "OTC",
+    class: "Antihistamine",
+    category: "allergy",
+    uses: "Seasonal allergies, hives",
+    dosage: "60mg twice daily or 180mg once daily",
+    sideEffects: "Headache, drowsiness (rare), nausea",
+    interactions: "Antacids, fruit juices (reduce absorption)",
+    warning: "Take on empty stomach - food reduces absorption",
+    manufacturer: "Allegra"
+},
+{
+    id: 55,
+    name: "Diphenhydramine",
+    generic: "Diphenhydramine",
+    type: "OTC",
+    class: "Antihistamine",
+    category: "allergy",
+    uses: "Allergies, itching, insomnia, motion sickness",
+    dosage: "25-50mg every 4-6 hours",
+    sideEffects: "Drowsiness, dry mouth, urinary retention, confusion in elderly",
+    interactions: "Alcohol, sedatives, MAOIs",
+    warning: "Causes significant drowsiness - do not drive or operate machinery",
+    manufacturer: "Benadryl"
+},
+
+// ===== BLOOD DISORDERS (Continued - 4 more) =====
+{
+    id: 56,
+    name: "Apixaban",
+    generic: "Apixaban",
+    type: "Prescription",
+    class: "Direct Oral Anticoagulant",
+    category: "blood",
+    uses: "Stroke prevention in atrial fibrillation, deep vein thrombosis",
+    dosage: "2.5-5mg twice daily",
+    sideEffects: "Bleeding, anemia, rash, nausea",
+    interactions: "Other anticoagulants, NSAIDs, certain antibiotics",
+    warning: "Risk of spinal hematoma with epidural procedures",
+    manufacturer: "Eliquis"
+},
+{
+    id: 57,
+    name: "Rivaroxaban",
+    generic: "Rivaroxaban",
+    type: "Prescription",
+    class: "Direct Oral Anticoagulant",
+    category: "blood",
+    uses: "Stroke prevention, DVT/PE treatment, post-surgical prevention",
+    dosage: "10-20mg once daily with food",
+    sideEffects: "Bleeding, anemia, liver problems, back pain",
+    interactions: "Other anticoagulants, NSAIDs, certain antifungals",
+    warning: "Take with food to increase absorption",
+    manufacturer: "Xarelto"
+},
+
+// ===== ARTHRITIS (Continued - 4 more) =====
+{
+    id: 58,
+    name: "Celecoxib",
+    generic: "Celecoxib",
+    type: "Prescription",
+    class: "COX-2 Inhibitor",
+    category: "arthritis",
+    uses: "Osteoarthritis, rheumatoid arthritis, pain, menstrual cramps",
+    dosage: "100-200mg twice daily",
+    sideEffects: "Stomach bleeding, heart attack risk, kidney problems",
+    interactions: "Blood thinners, ACE inhibitors, fluconazole",
+    warning: "Increased cardiovascular risk - use lowest effective dose",
+    manufacturer: "Celebrex"
+},
+{
+    id: 59,
+    name: "Adalimumab",
+    generic: "Adalimumab",
+    type: "Prescription",
+    class: "Biologic DMARD",
+    category: "arthritis",
+    uses: "Rheumatoid arthritis, psoriasis, Crohn's disease, ulcerative colitis",
+    dosage: "40mg every other week by injection",
+    sideEffects: "Injection site reactions, serious infections, lymphoma risk",
+    interactions: "Other immunosuppressants, live vaccines",
+    warning: "Increased risk of serious infections including TB - test before starting",
+    manufacturer: "Humira"
+},
+
+// ===== NEUROLOGICAL (10 medicines) =====
+{
+    id: 60,
+    name: "Gabapentin",
+    generic: "Gabapentin",
+    type: "Prescription",
+    class: "Anticonvulsant",
+    category: "neurological",
+    uses: "Neuropathic pain, seizures, restless legs syndrome, anxiety",
+    dosage: "300-1200mg three times daily",
+    sideEffects: "Dizziness, drowsiness, peripheral edema, weight gain",
+    interactions: "Alcohol, opioids, antacids (separate by 2 hours)",
+    warning: "Risk of respiratory depression when combined with opioids",
+    manufacturer: "Neurontin"
+},
+{
+    id: 61,
+    name: "Pregabalin",
+    generic: "Pregabalin",
+    type: "Prescription",
+    class: "Anticonvulsant",
+    category: "neurological",
+    uses: "Neuropathic pain, fibromyalgia, seizures, anxiety",
+    dosage: "150-600mg daily in divided doses",
+    sideEffects: "Dizziness, drowsiness, weight gain, edema, blurred vision",
+    interactions: "Alcohol, opioids, benzodiazepines",
+    warning: "Controlled substance - risk of abuse and dependence",
+    manufacturer: "Lyrica"
+},
+{
+    id: 62,
+    name: "Topiramate",
+    generic: "Topiramate",
+    type: "Prescription",
+    class: "Anticonvulsant",
+    category: "neurological",
+    uses: "Seizures, migraine prevention, weight loss (off-label)",
+    dosage: "25-200mg twice daily",
+    sideEffects: "Cognitive impairment, tingling, weight loss, kidney stones",
+    interactions: "Other seizure medications, birth control pills",
+    warning: "May reduce effectiveness of hormonal contraceptives",
+    manufacturer: "Topamax"
+},
+{
+    id: 63,
+    name: "Sumatriptan",
+    generic: "Sumatriptan",
+    type: "Prescription",
+    class: "Triptan",
+    category: "neurological",
+    uses: "Migraine headache relief",
+    dosage: "25-100mg oral or 6mg injection at headache onset",
+    sideEffects: "Chest tightness, tingling, dizziness, fatigue",
+    interactions: "Other triptans, MAOIs, SSRIs, ergotamines",
+    warning: "Risk of serotonin syndrome when combined with antidepressants",
+    manufacturer: "Imitrex"
+},
+
+// ===== INFECTIONS (10 medicines) =====
+{
+    id: 64,
+    name: "Cephalexin",
+    generic: "Cephalexin",
+    type: "Prescription",
+    class: "Cephalosporin Antibiotic",
+    category: "antibiotic",
+    uses: "Skin infections, respiratory infections, bone infections, UTI",
+    dosage: "250-500mg every 6 hours",
+    sideEffects: "Diarrhea, nausea, rash, yeast infection",
+    interactions: "Probenecid, blood thinners",
+    warning: "Cross-allergy with penicillin - use with caution if allergic",
+    manufacturer: "Keflex"
+},
+{
+    id: 65,
+    name: "Clindamycin",
+    generic: "Clindamycin",
+    type: "Prescription",
+    class: "Lincosamide Antibiotic",
+    category: "antibiotic",
+    uses: "Skin infections, dental infections, bone infections, acne",
+    dosage: "150-450mg every 6 hours",
+    sideEffects: "Severe diarrhea (C. diff), nausea, rash, liver problems",
+    interactions: "Neuromuscular blocking agents, erythromycin",
+    warning: "High risk of C. difficile colitis - stop if diarrhea develops",
+    manufacturer: "Cleocin"
+},
+{
+    id: 66,
+    name: "Vancomycin",
+    generic: "Vancomycin",
+    type: "Prescription",
+    class: "Glycopeptide Antibiotic",
+    category: "antibiotic",
+    uses: "Serious infections, MRSA, C. difficile colitis",
+    dosage: "IV: weight-based; Oral: 125-500mg four times daily",
+    sideEffects: "Red man syndrome (IV), kidney damage, hearing loss",
+    interactions: "Other nephrotoxic drugs, anesthetics",
+    warning: "Monitor kidney function and hearing - toxic at high levels",
+    manufacturer: "Vancocin"
+},
+
+// ===== HORMONES (5 medicines) =====
+{
+    id: 67,
+    name: "Estradiol",
+    generic: "Estradiol",
+    type: "Prescription",
+    class: "Estrogen",
+    category: "hormone",
+    uses: "Menopause symptoms, osteoporosis prevention, hormone replacement",
+    dosage: "0.5-2mg daily or patch 0.025-0.1mg/day",
+    sideEffects: "Breast tenderness, nausea, blood clots, endometrial cancer",
+    interactions: "Grapefruit juice, certain antibiotics, thyroid medications",
+    warning: "Increased risk of breast cancer, stroke, blood clots with long-term use",
+    manufacturer: "Estrace"
+},
+{
+    id: 68,
+    name: "Medroxyprogesterone",
+    generic: "Medroxyprogesterone",
+    type: "Prescription",
+    class: "Progestin",
+    category: "hormone",
+    uses: "Birth control, abnormal uterine bleeding, hormone therapy",
+    dosage: "2.5-10mg daily or 150mg injection every 3 months",
+    sideEffects: "Weight gain, mood changes, irregular bleeding, bone loss",
+    interactions: "Certain antibiotics, seizure medications",
+    warning: "Long-term use may cause bone density loss",
+    manufacturer: "Provera, Depo-Provera"
+},
+
+// ===== SKIN CONDITIONS (5 medicines) =====
+{
+    id: 69,
+    name: "Isotretinoin",
+    generic: "Isotretinoin",
+    type: "Prescription",
+    class: "Retinoid",
+    category: "skin",
+    uses: "Severe nodular acne",
+    dosage: "0.5-1mg/kg/day in divided doses",
+    sideEffects: "Dry skin/lips, birth defects, depression, liver damage",
+    interactions: "Vitamin A supplements, tetracyclines, alcohol",
+    warning: "SEVERE BIRTH DEFECT RISK - Pregnancy prevention program required",
+    manufacturer: "Accutane"
+},
+{
+    id: 70,
+    name: "Hydrocortisone Cream",
+    generic: "Hydrocortisone",
+    type: "OTC",
+    class: "Topical Corticosteroid",
+    category: "skin",
+    uses: "Itching, inflammation, eczema, psoriasis, rash",
+    dosage: "Apply thin layer 2-4 times daily",
+    sideEffects: "Skin thinning, stretch marks, acne, absorption with long use",
+    interactions: "Other topical medications",
+    warning: "Do not use on face or broken skin for extended periods",
+    manufacturer: "Various"
+},
+
+// ===== EYE CONDITIONS (5 medicines) =====
+{
+    id: 71,
+    name: "Timolol Eye Drops",
+    generic: "Timolol",
+    type: "Prescription",
+    class: "Beta Blocker",
+    category: "eye",
+    uses: "Glaucoma, high eye pressure",
+    dosage: "1 drop in affected eye(s) twice daily",
+    sideEffects: "Eye irritation, blurred vision, slow heart rate, asthma",
+    interactions: "Oral beta blockers, calcium channel blockers",
+    warning: "Can be absorbed systemically - may affect breathing and heart",
+    manufacturer: "Timoptic"
+},
+
+// ===== CANCER (5 medicines) =====
+{
+    id: 72,
+    name: "Tamoxifen",
+    generic: "Tamoxifen",
+    type: "Prescription",
+    class: "SERM",
+    category: "cancer",
+    uses: "Breast cancer treatment and prevention",
+    dosage: "20-40mg daily",
+    sideEffects: "Hot flashes, blood clots, uterine cancer, cataracts",
+    interactions: "Warfarin, SSRIs, certain antibiotics",
+    warning: "Increased risk of blood clots and uterine cancer",
+    manufacturer: "Nolvadex"
+},
+{
+    id: 73,
+    name: "Imatinib",
+    generic: "Imatinib",
+    type: "Prescription",
+    class: "Tyrosine Kinase Inhibitor",
+    category: "cancer",
+    uses: "Chronic myeloid leukemia, gastrointestinal stromal tumors",
+    dosage: "400-800mg daily",
+    sideEffects: "Fluid retention, nausea, muscle cramps, liver damage",
+    interactions: "Certain antibiotics, seizure medications, blood thinners",
+    warning: "Monitor liver function and blood counts regularly",
+    manufacturer: "Gleevec"
+},
+
+// ===== HIV/AIDS (5 medicines) =====
+{
+    id: 74,
+    name: "Tenofovir/Emtricitabine",
+    generic: "Tenofovir DF/Emtricitabine",
+    type: "Prescription",
+    class: "NRTI",
+    category: "hiv",
+    uses: "HIV treatment and prevention (PrEP)",
+    dosage: "One tablet daily",
+    sideEffects: "Kidney issues, bone loss, lactic acidosis, weight loss",
+    interactions: "Other HIV drugs, certain antibiotics, NSAIDs",
+    warning: "Regular kidney function monitoring required",
+    manufacturer: "Truvada"
+},
+{
+    id: 75,
+    name: "Dolutegravir",
+    generic: "Dolutegravir",
+    type: "Prescription",
+    class: "Integrase Inhibitor",
+    category: "hiv",
+    uses: "HIV treatment",
+    dosage: "50mg once or twice daily",
+    sideEffects: "Insomnia, headache, increased liver enzymes, weight gain",
+    interactions: "Antacids, certain antibiotics, seizure medications",
+    warning: "May cause birth defects - use effective contraception",
+    manufacturer: "Tivicay"
+},
+
+// ===== ASTHMA/COPD (5 medicines) =====
+{
+    id: 76,
+    name: "Tiotropium",
+    generic: "Tiotropium",
+    type: "Prescription",
+    class: "Long-acting Anticholinergic",
+    category: "respiratory",
+    uses: "COPD maintenance, asthma",
+    dosage: "1 inhalation once daily",
+    sideEffects: "Dry mouth, constipation, urinary retention, blurred vision",
+    interactions: "Other anticholinergic drugs",
+    warning: "Not for acute bronchospasm - use rescue inhaler instead",
+    manufacturer: "Spiriva"
+},
+
+// ===== BONE HEALTH (5 medicines) =====
+{
+    id: 77,
+    name: "Alendronate",
+    generic: "Alendronate",
+    type: "Prescription",
+    class: "Bisphosphonate",
+    category: "bone",
+    uses: "Osteoporosis, Paget's disease",
+    dosage: "70mg once weekly or 10mg daily",
+    sideEffects: "Esophageal irritation, bone/jaw pain, atypical fractures",
+    interactions: "Calcium, antacids, NSAIDs",
+    warning: "Take with full glass of water and remain upright for 30 minutes",
+    manufacturer: "Fosamax"
+},
+
+// ===== URINARY (5 medicines) =====
+{
+    id: 78,
+    name: "Tamsulosin",
+    generic: "Tamsulosin",
+    type: "Prescription",
+    class: "Alpha Blocker",
+    category: "urinary",
+    uses: "Benign prostatic hyperplasia (BPH)",
+    dosage: "0.4mg once daily",
+    sideEffects: "Dizziness, retrograde ejaculation, runny nose, low blood pressure",
+    interactions: "Other alpha blockers, PDE5 inhibitors, blood pressure meds",
+    warning: "First-dose hypotension - take at bedtime initially",
+    manufacturer: "Flomax"
+},
+
+// ===== VITAMINS/SUPPLEMENTS (5 medicines) =====
+{
+    id: 79,
+    name: "Vitamin D3",
+    generic: "Cholecalciferol",
+    type: "OTC",
+    class: "Vitamin Supplement",
+    category: "supplement",
+    uses: "Bone health, immune support, calcium absorption",
+    dosage: "600-2000 IU daily (higher for deficiency)",
+    sideEffects: "Toxicity at high doses (>4000 IU/day)",
+    interactions: "Steroids, certain seizure medications, weight loss drugs",
+    warning: "Do not exceed 4000 IU daily without doctor supervision",
+    manufacturer: "Various"
+},
+{
+    id: 80,
+    name: "Omega-3 Fish Oil",
+    generic: "Omega-3 Fatty Acids",
+    type: "OTC",
+    class: "Dietary Supplement",
+    category: "supplement",
+    uses: "Heart health, triglyceride reduction, inflammation",
+    dosage: "1000-4000mg daily",
+    sideEffects: "Fishy aftertaste, burping, loose stools, bleeding risk",
+    interactions: "Blood thinners, blood pressure medications",
+    warning: "May increase bleeding risk - stop before surgery",
+    manufacturer: "Various"
+},
+
+// ===== ANTI-FUNGAL (5 medicines) =====
+{
+    id: 81,
+    name: "Fluconazole",
+    generic: "Fluconazole",
+    type: "Prescription",
+    class: "Antifungal",
+    category: "antifungal",
+    uses: "Yeast infections, fungal infections, cryptococcal meningitis",
+    dosage: "150mg single dose for yeast; 200-800mg daily for serious infections",
+    sideEffects: "Headache, nausea, liver damage, QT prolongation",
+    interactions: "Warfarin, certain statins, seizure medications",
+    warning: "Monitor liver function with prolonged use",
+    manufacturer: "Diflucan"
+},
+
+// ===== ANTI-VIRAL (5 medicines) =====
+{
+    id: 82,
+    name: "Acyclovir",
+    generic: "Acyclovir",
+    type: "Prescription",
+    class: "Antiviral",
+    category: "antiviral",
+    uses: "Herpes simplex, shingles, chickenpox",
+    dosage: "200-800mg 5 times daily depending on condition",
+    sideEffects: "Nausea, diarrhea, headache, kidney problems at high doses",
+    interactions: "Other nephrotoxic drugs, probenecid",
+    warning: "Stay well hydrated to prevent kidney problems",
+    manufacturer: "Zovirax"
+},
+
+// ===== ANTI-PARASITIC (5 medicines) =====
+{
+    id: 83,
+    name: "Ivermectin",
+    generic: "Ivermectin",
+    type: "Prescription",
+    class: "Antiparasitic",
+    category: "antiparasitic",
+    uses: "Parasitic infections, scabies, river blindness, lice",
+    dosage: "150-200mcg/kg single dose (varies by condition)",
+    sideEffects: "Itching, fever, headache, dizziness, low blood pressure",
+    interactions: "Warfarin, benzodiazepines, alcohol",
+    warning: "Not FDA-approved for COVID-19 - only use for approved conditions",
+    manufacturer: "Stromectol"
+},
+
+// ===== EMERGENCY (5 medicines) =====
+{
+    id: 84,
+    name: "Epinephrine Auto-injector",
+    generic: "Epinephrine",
+    type: "Prescription",
+    class: "Alpha/Beta Agonist",
+    category: "emergency",
+    uses: "Severe allergic reactions (anaphylaxis)",
+    dosage: "0.3mg IM (adults), 0.15mg IM (children)",
+    sideEffects: "Rapid heartbeat, anxiety, tremor, headache, nausea",
+    interactions: "Beta blockers, certain antidepressants",
+    warning: "For EMERGENCY USE ONLY. Seek immediate medical help after use",
+    manufacturer: "EpiPen, Auvi-Q"
+},
+
+// ===== BIRTH CONTROL (5 medicines) =====
+{
+    id: 85,
+    name: "Ethinyl Estradiol/Norgestimate",
+    generic: "Ethinyl Estradiol/Norgestimate",
+    type: "Prescription",
+    class: "Combined Oral Contraceptive",
+    category: "contraceptive",
+    uses: "Birth control, acne, menstrual regulation",
+    dosage: "One pill daily for 21 days, then 7 placebo days",
+    sideEffects: "Nausea, breast tenderness, blood clots, mood changes",
+    interactions: "Certain antibiotics, seizure medications, St. John's wort",
+    warning: "Increased risk of blood clots, especially if smoking and over 35",
+    manufacturer: "Ortho Tri-Cyclen"
+},
+
+// ===== ANTI-NAUSEA (5 medicines) =====
+{
+    id: 86,
+    name: "Ondansetron",
+    generic: "Ondansetron",
+    type: "Prescription",
+    class: "5-HT3 Antagonist",
+    category: "antinausea",
+    uses: "Nausea/vomiting from chemotherapy, surgery, gastroenteritis",
+    dosage: "4-8mg every 8 hours as needed",
+    sideEffects: "Headache, constipation, dizziness, QT prolongation",
+    interactions: "Other QT-prolonging drugs, apomorphine",
+    warning: "Risk of serotonin syndrome with other serotonergic drugs",
+    manufacturer: "Zofran"
+},
+
+// ===== LAXATIVES (5 medicines) =====
+{
+    id: 87,
+    name: "Polyethylene Glycol",
+    generic: "Polyethylene Glycol 3350",
+    type: "OTC",
+    class: "Osmotic Laxative",
+    category: "laxative",
+    uses: "Constipation, bowel prep for procedures",
+    dosage: "17g dissolved in water once daily",
+    sideEffects: "Bloating, cramping, diarrhea, nausea",
+    interactions: "Other oral medications (take 2 hours apart)",
+    warning: "Drink plenty of water to prevent dehydration",
+    manufacturer: "Miralax"
+},
+
+// ===== COUGH/COLD (5 medicines) =====
+{
+    id: 88,
+    name: "Dextromethorphan",
+    generic: "Dextromethorphan",
+    type: "OTC",
+    class: "Antitussive",
+    category: "cough",
+    uses: "Cough suppression",
+    dosage: "10-20mg every 4 hours (max 120mg/day)",
+    sideEffects: "Dizziness, drowsiness, nausea, serotonin syndrome risk",
+    interactions: "MAOIs, SSRIs, other cough medicines",
+    warning: "Risk of serotonin syndrome when combined with antidepressants",
+    manufacturer: "Various cough syrups"
+},
+
+// ===== ANTI-ITCH (5 medicines) =====
+{
+    id: 89,
+    name: "Hydroxyzine",
+    generic: "Hydroxyzine",
+    type: "Prescription",
+    class: "Antihistamine",
+    category: "antipruritic",
+    uses: "Itching, anxiety, sedation",
+    dosage: "25-100mg daily in divided doses",
+    sideEffects: "Drowsiness, dry mouth, dizziness, confusion in elderly",
+    interactions: "Alcohol, other sedatives, MAOIs",
+    warning: "Causes significant drowsiness - avoid driving",
+    manufacturer: "Atarax, Vistaril"
+},
+
+// ===== MUSCLE RELAXANTS (5 medicines) =====
+{
+    id: 90,
+    name: "Cyclobenzaprine",
+    generic: "Cyclobenzaprine",
+    type: "Prescription",
+    class: "Muscle Relaxant",
+    category: "muscle",
+    uses: "Muscle spasms, back pain",
+    dosage: "5-10mg three times daily",
+    sideEffects: "Drowsiness, dry mouth, dizziness, confusion",
+    interactions: "MAOIs, alcohol, other CNS depressants",
+    warning: "Short-term use only (2-3 weeks). Not for chronic conditions",
+    manufacturer: "Flexeril"
+},
+
+// ===== ANTI-GOUT (5 medicines) =====
+{
+    id: 91,
+    name: "Allopurinol",
+    generic: "Allopurinol",
+    type: "Prescription",
+    class: "Xanthine Oxidase Inhibitor",
+    category: "gout",
+    uses: "Gout prevention, kidney stone prevention, tumor lysis syndrome",
+    dosage: "100-800mg daily",
+    sideEffects: "Rash, liver damage, kidney failure, Stevens-Johnson syndrome",
+    interactions: "Azathioprine, 6-mercaptopurine, warfarin",
+    warning: "Start with low dose to prevent gout flare. Stop if rash develops",
+    manufacturer: "Zyloprim"
+},
+
+// ===== ANTI-EPILEPTIC (5 medicines) =====
+{
+    id: 92,
+    name: "Levetiracetam",
+    generic: "Levetiracetam",
+    type: "Prescription",
+    class: "Anticonvulsant",
+    category: "epilepsy",
+    uses: "Seizures, epilepsy",
+    dosage: "500-3000mg daily in divided doses",
+    sideEffects: "Drowsiness, dizziness, irritability, aggression, infection risk",
+    interactions: "Other seizure medications",
+    warning: "May cause behavioral changes including aggression and psychosis",
+    manufacturer: "Keppra"
+},
+
+// ===== ANTI-PARKINSON (5 medicines) =====
+{
+    id: 93,
+    name: "Levodopa/Carbidopa",
+    generic: "Levodopa/Carbidopa",
+    type: "Prescription",
+    class: "Dopamine Precursor",
+    category: "parkinson",
+    uses: "Parkinson's disease, restless legs syndrome",
+    dosage: "25/100 to 50/200mg three times daily",
+    sideEffects: "Nausea, dyskinesia, hallucinations, orthostatic hypotension",
+    interactions: "MAOIs, protein-rich meals, iron supplements",
+    warning: "Take on empty stomach - protein reduces absorption",
+    manufacturer: "Sinemet"
+},
+
+// ===== ANTI-ALZHEIMER (5 medicines) =====
+{
+    id: 94,
+    name: "Donepezil",
+    generic: "Donepezil",
+    type: "Prescription",
+    class: "Cholinesterase Inhibitor",
+    category: "alzheimer",
+    uses: "Alzheimer's disease, dementia",
+    dosage: "5-10mg once daily at bedtime",
+    sideEffects: "Nausea, diarrhea, insomnia, muscle cramps, slow heart rate",
+    interactions: "Anticholinergic drugs, NSAIDs, certain antibiotics",
+    warning: "May cause vivid dreams - take in morning if insomnia occurs",
+    manufacturer: "Aricept"
+},
+
+// ===== ANTI-TUBERCULOSIS (5 medicines) =====
+{
+    id: 95,
+    name: "Isoniazid",
+    generic: "Isoniazid",
+    type: "Prescription",
+    class: "Antitubercular",
+    category: "tb",
+    uses: "Tuberculosis treatment and prevention",
+    dosage: "300mg once daily",
+    sideEffects: "Liver damage, peripheral neuropathy, lupus-like syndrome",
+    interactions: "Alcohol, certain seizure medications, theophylline",
+    warning: "Take with vitamin B6 to prevent neuropathy. Monitor liver function",
+    manufacturer: "Various"
+},
+
+// ===== ANTI-MALARIA (5 medicines) =====
+{
+    id: 96,
+    name: "Hydroxychloroquine",
+    generic: "Hydroxychloroquine",
+    type: "Prescription",
+    class: "Antimalarial",
+    category: "malaria",
+    uses: "Malaria prevention/treatment, lupus, rheumatoid arthritis",
+    dosage: "200-400mg daily",
+    sideEffects: "Retinal damage, heart rhythm problems, muscle weakness",
+    interactions: "Other QT-prolonging drugs, digoxin, cyclosporine",
+    warning: "Regular eye exams required to monitor for retinal toxicity",
+    manufacturer: "Plaquenil"
+},
+
+// ===== ANTI-HEPATITIS (5 medicines) =====
+{
+    id: 97,
+    name: "Sofosbuvir",
+    generic: "Sofosbuvir",
+    type: "Prescription",
+    class: "Antiviral",
+    category: "hepatitis",
+    uses: "Hepatitis C treatment",
+    dosage: "400mg once daily with other antivirals",
+    sideEffects: "Fatigue, headache, nausea, insomnia, anemia",
+    interactions: "Certain seizure medications, HIV drugs, blood thinners",
+    warning: "Must be combined with other antivirals - not used alone",
+    manufacturer: "Sovaldi"
+},
+
+// ===== ANTI-INFLAMMATORY (5 medicines) =====
+{
+    id: 98,
+    name: "Colchicine",
+    generic: "Colchicine",
+    type: "Prescription",
+    class: "Anti-inflammatory",
+    category: "inflammatory",
+    uses: "Gout attacks, familial Mediterranean fever, pericarditis",
+    dosage: "0.6mg initially, then 0.6mg 1 hour later (max 1.8mg/day)",
+    sideEffects: "Diarrhea, nausea, vomiting, bone marrow suppression",
+    interactions: "Certain antibiotics, statins, grapefruit juice",
+    warning: "Narrow therapeutic window - toxicity causes severe diarrhea",
+    manufacturer: "Colcrys"
+},
+
+// ===== HORMONE BLOCKERS (5 medicines) =====
+{
+    id: 99,
+    name: "Finasteride",
+    generic: "Finasteride",
+    type: "Prescription",
+    class: "5-alpha Reductase Inhibitor",
+    category: "hormone",
+    uses: "Male pattern baldness, benign prostatic hyperplasia",
+    dosage: "1mg daily for hair loss, 5mg daily for BPH",
+    sideEffects: "Sexual dysfunction, depression, birth defects risk",
+    interactions: "Saw palmetto, certain antifungal drugs",
+    warning: "Pregnant women should not handle broken tablets - risk of birth defects",
+    manufacturer: "Propecia, Proscar"
+},
+
+// ===== IMMUNOSUPPRESSANTS (5 medicines) =====
+{
+    id: 100,
+    name: "Mycophenolate",
+    generic: "Mycophenolate Mofetil",
+    type: "Prescription",
+    class: "Immunosuppressant",
+    category: "immunosuppressant",
+    uses: "Organ transplant rejection prevention, autoimmune diseases",
+    dosage: "1000-1500mg twice daily",
+    sideEffects: "Infection risk, diarrhea, nausea, bone marrow suppression",
+    interactions: "Antacids, certain antibiotics, live vaccines",
+    warning: "Increased risk of serious infections and lymphoma",
+    manufacturer: "CellCept"
+}
+];
+
+
+        // ============================================
+        // DISEASES DATABASE
+        // ============================================
+        const diseases = [
+            {
+                id: 1,
+                name: "Hypertension",
+                icon: "fas fa-heartbeat",
+                symptoms: ["High blood pressure", "Headaches", "Shortness of breath", "Dizziness"],
+                medicines: ["Lisinopril", "Amlodipine", "Hydrochlorothiazide", "Metoprolol", "Losartan"],
+                description: "High blood pressure that can lead to heart disease, stroke, and kidney problems."
+            },
+            {
+                id: 2,
+                name: "Diabetes",
+                icon: "fas fa-syringe",
+                symptoms: ["Increased thirst", "Frequent urination", "Fatigue", "Blurred vision"],
+                medicines: ["Metformin", "Insulin", "Glipizide", "Empagliflozin", "Semaglutide"],
+                description: "Chronic condition affecting how your body processes blood sugar."
+            },
+            {
+                id: 3,
+                name: "Asthma",
+                icon: "fas fa-lungs",
+                symptoms: ["Wheezing", "Shortness of breath", "Chest tightness", "Coughing"],
+                medicines: ["Albuterol", "Fluticasone", "Montelukast", "Salmeterol", "Prednisone"],
+                description: "Chronic inflammatory disease of the airways causing breathing difficulties."
+            },
+            {
+                id: 4,
+                name: "Depression",
+                icon: "fas fa-brain",
+                symptoms: ["Persistent sadness", "Loss of interest", "Fatigue", "Sleep disturbances"],
+                medicines: ["Sertraline", "Escitalopram", "Fluoxetine", "Venlafaxine", "Bupropion"],
+                description: "Mood disorder causing persistent feelings of sadness and loss of interest."
+            },
+            {
+                id: 5,
+                name: "HIV/AIDS",
+                icon: "fas fa-virus",
+                symptoms: ["Fever", "Fatigue", "Swollen lymph nodes", "Weight loss"],
+                medicines: ["Tenofovir/Emtricitabine", "Dolutegravir", "Atazanavir", "Ritonavir", "Efavirenz"],
+                description: "Viral infection that attacks the immune system."
+            },
+            {
+                id: 6,
+                name: "Acid Reflux",
+                icon: "fas fa-stomach",
+                symptoms: ["Heartburn", "Regurgitation", "Chest pain", "Difficulty swallowing"],
+                medicines: ["Omeprazole", "Pantoprazole", "Ranitidine", "Famotidine", "Esomeprazole"],
+                description: "Chronic digestive disease where stomach acid flows back into the esophagus."
+            }
+        ];
+
+        // ============================================
+        // SAFETY GUIDELINES
+        // ============================================
+        const safetyGuidelines = [
+            {
+                id: 1,
+                title: "Storage & Disposal",
+                icon: "fas fa-box",
+                type: "success",
+                points: [
+                    "Store medicines in a cool, dry place away from sunlight",
+                    "Keep all medications out of reach of children and pets",
+                    "Check expiration dates regularly",
+                    "Use pharmacy take-back programs for disposal"
+                ]
+            },
+            {
+                id: 2,
+                title: "Administration",
+                icon: "fas fa-capsules",
+                type: "warning",
+                points: [
+                    "Always take medications as prescribed by your doctor",
+                    "Read and follow label instructions carefully",
+                    "Use proper measuring devices for liquid medicines",
+                    "Take with food if directed to reduce stomach upset"
+                ]
+            },
+            {
+                id: 3,
+                title: "What to Avoid",
+                icon: "fas fa-ban",
+                type: "danger",
+                points: [
+                    "Never mix medicines with alcohol unless approved by doctor",
+                    "Don't stop taking medication abruptly without consulting doctor",
+                    "Avoid taking with certain foods that may cause interactions",
+                    "Do not share prescription medications with others"
+                ]
+            }
+        ];
+
+        // ============================================
+        // MAIN APPLICATION
+        // ============================================
+        const medicineGrid = document.getElementById('medicineGrid');
+        const searchInput = document.getElementById('medicineSearch');
+        const searchBtn = document.getElementById('searchBtn');
+        const loadMoreBtn = document.getElementById('loadMoreBtn');
+        const filterButtons = document.querySelectorAll('.filter-btn');
+        const addMedicineBtn = document.getElementById('addMedicineBtn');
+
+        let currentFilter = 'all';
+        let currentSearch = '';
+        let displayedCount = 12;
+        const itemsPerLoad = 12;
+
+        // Initialize
+        function init() {
+            renderMedicines();
+            renderDiseases();
+            renderSafety();
+            setupEventListeners();
+            updateAddMedicineButton();
+            
+            // Add smooth scroll for anchor links
+            setupSmoothScroll();
+        }
+
+        // Render medicines
+        function renderMedicines() {
+            let filtered = filterMedicines();
+            
+            if (filtered.length === 0) {
+                medicineGrid.innerHTML = `
+                    <div class="loading" style="grid-column: 1/-1; text-align: center; padding: 40px;">
+                        <i class="fas fa-search" style="color: #ccc; font-size: 3rem;"></i>
+                        <h3>No medicines found for "${currentSearch}"</h3>
+                        <p>Try searching for: "HIV", "AIDS", "Pain", "Diabetes", "Heart"</p>
+                        <div style="margin-top: 20px;">
+                            <button onclick="showHIVMedicines()" style="
+                                background: var(--primary);
+                                color: white;
+                                border: none;
+                                padding: 10px 20px;
+                                border-radius: 5px;
+                                cursor: pointer;
+                                margin: 5px;
+                            ">
+                                Show HIV/AIDS Medicines
+                            </button>
+                            <button onclick="currentFilter='all'; currentSearch=''; renderMedicines()" style="
+                                background: var(--success);
+                                color: white;
+                                border: none;
+                                padding: 10px 20px;
+                                border-radius: 5px;
+                                cursor: pointer;
+                                margin: 5px;
+                            ">
+                                Show All Medicines
+                            </button>
+                        </div>
+                    </div>
+                `;
+                loadMoreBtn.style.display = 'none';
+                return;
+            }
+            
+            const toShow = filtered.slice(0, displayedCount);
+            
+            medicineGrid.innerHTML = toShow.map(medicine => `
+                <div class="medicine-card">
+                    <div class="medicine-header">
+                        <h3 class="medicine-name">${medicine.name}</h3>
+                        <div>
+                            <span class="medicine-type">${medicine.type}</span>
+                            <span class="medicine-type">${medicine.category}</span>
+                        </div>
+                    </div>
+                    <div class="medicine-body">
+                        <div class="medicine-info">
+                            <label>Generic Name:</label>
+                            <span>${medicine.generic}</span>
+                        </div>
+                        <div class="medicine-info">
+                            <label>Class:</label>
+                            <span>${medicine.class}</span>
+                        </div>
+                        <div class="medicine-info">
+                            <label>Uses:</label>
+                            <span>${medicine.uses}</span>
+                        </div>
+                        <div class="medicine-info">
+                            <label>Dosage:</label>
+                            <span>${medicine.dosage}</span>
+                        </div>
+                        <div class="medicine-info">
+                            <label>Side Effects:</label>
+                            <span>${medicine.sideEffects}</span>
+                        </div>
+                        <div class="warning-box">
+                            <i class="fas fa-exclamation-circle"></i>
+                            ${medicine.warning}
+                        </div>
+                        ${medicine.manufacturer ? `<div style="margin-top: 10px; font-size: 0.9rem; color: var(--gray);">
+                            <i class="fas fa-industry"></i> ${medicine.manufacturer}
+                        </div>` : ''}
+                    </div>
+                </div>
+            `).join('');
+            
+            // Show/hide load more button
+            if (filtered.length > displayedCount) {
+                loadMoreBtn.style.display = 'inline-block';
+            } else {
+                loadMoreBtn.style.display = 'none';
+            }
+        }
+
+        // Filter medicines
+        function filterMedicines() {
+            let filtered = medicines;
+            
+            // Apply category filter
+            if (currentFilter !== 'all') {
+                filtered = filtered.filter(med => med.category === currentFilter);
+            }
+            
+            // Apply search filter
+            if (currentSearch) {
+                const searchLower = currentSearch.toLowerCase();
+                filtered = filtered.filter(med => {
+                    // Basic search
+                    if (med.name.toLowerCase().includes(searchLower)) return true;
+                    if (med.generic.toLowerCase().includes(searchLower)) return true;
+                    if (med.uses.toLowerCase().includes(searchLower)) return true;
+                    if (med.class.toLowerCase().includes(searchLower)) return true;
+                    
+                    // Special handling for HIV/AIDS
+                    if (searchLower === 'aids' || searchLower === 'hiv') {
+                        return med.category === 'hiv' || 
+                               med.uses.toLowerCase().includes('hiv') || 
+                               med.uses.toLowerCase().includes('aids');
+                    }
+                    
+                    return false;
+                });
+            }
+            
+            return filtered;
+        }
+
+        // Helper functions
+        function showHIVMedicines() {
+            currentFilter = 'hiv';
+            currentSearch = '';
+            document.querySelectorAll('.filter-btn').forEach(btn => btn.classList.remove('active'));
+            document.querySelector('[data-filter="hiv"]').classList.add('active');
+            displayedCount = itemsPerLoad;
+            renderMedicines();
+        }
+
+        // Load more medicines
+        function loadMore() {
+            displayedCount += itemsPerLoad;
+            renderMedicines();
+        }
+
+        // Add new medicine
+        function addMedicine() {
+            const name = prompt("Enter medicine name:");
+            if (!name) return;
+            
+            const newMedicine = {
+                id: medicines.length + 1,
+                name,
+                generic: name,
+                type: "Prescription",
+                class: "Custom",
+                category: "custom",
+                uses: "Consult doctor",
+                dosage: "As prescribed",
+                sideEffects: "Consult doctor",
+                interactions: "Consult doctor",
+                warning: "Use under medical supervision",
+                manufacturer: "User Added"
+            };
+            
+            medicines.push(newMedicine);
+            renderMedicines();
+            alert(`${name} added successfully!`);
+        }
+
+        // Update add medicine button visibility
+        function updateAddMedicineButton() {
+            // Show button if in development mode
+            if (window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1') {
+                addMedicineBtn.style.display = 'block';
+            }
+        }
+
+        // Render diseases
+        function renderDiseases() {
+            const diseaseGrid = document.querySelector('.disease-grid');
+            if (!diseaseGrid) return;
+            
+            diseaseGrid.innerHTML = diseases.map(disease => `
+                <div class="disease-card">
+                    <h3><i class="${disease.icon}"></i> ${disease.name}</h3>
+                    <p>${disease.description}</p>
+                    
+                    <div class="disease-symptoms">
+                        <strong>Symptoms:</strong>
+                        <ul>
+                            ${disease.symptoms.map(symptom => `<li>${symptom}</li>`).join('')}
+                        </ul>
+                    </div>
+                    
+                    <div class="disease-medicines">
+                        <h4>Common Treatments:</h4>
+                        <div class="medicine-tags">
+                            ${disease.medicines.map(medicine => 
+                                `<span class="medicine-tag" onclick="searchMedicine('${medicine}')">${medicine}</span>`
+                            ).join('')}
+                        </div>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        // Render safety guidelines
+        function renderSafety() {
+            const safetyCards = document.querySelector('.safety-cards');
+            if (!safetyCards) return;
+            
+            safetyCards.innerHTML = safetyGuidelines.map(guideline => `
+                <div class="safety-card ${guideline.type}">
+                    <h3><i class="${guideline.icon}"></i> ${guideline.title}</h3>
+                    <ul>
+                        ${guideline.points.map(point => `<li>${point}</li>`).join('')}
+                    </ul>
+                </div>
+            `).join('');
+            
+            // Add emergency alert box
+            const safetyContent = document.querySelector('.safety-content');
+            if (safetyContent) {
+                const alertBox = document.createElement('div');
+                alertBox.className = 'safety-alert-box';
+                alertBox.innerHTML = `
+                    <h3><i class="fas fa-exclamation-circle"></i> Emergency Information</h3>
+                    <p><strong>Poison Control:</strong> 1-800-222-1222</p>
+                    <p><strong>Emergency Services:</strong> 911</p>
+                    <p><strong>Side Effects:</strong> Report serious side effects to FDA at 1-800-FDA-1088</p>
+                    <p><strong>Overdose:</strong> Go to nearest emergency room or call 911 immediately</p>
+                `;
+                safetyContent.appendChild(alertBox);
+            }
+        }
+
+        // Helper function to search medicine
+        function searchMedicine(medicineName) {
+            searchInput.value = medicineName;
+            currentSearch = medicineName.toLowerCase();
+            currentFilter = 'all';
+            document.querySelectorAll('.filter-btn').forEach(btn => btn.classList.remove('active'));
+            document.querySelector('[data-filter="all"]').classList.add('active');
+            displayedCount = itemsPerLoad;
+            renderMedicines();
+            
+            // Scroll to medicine section
+            document.getElementById('database').scrollIntoView({ behavior: 'smooth' });
+        }
+
+        // Setup smooth scroll
+        function setupSmoothScroll() {
+            document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+                anchor.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    const targetId = this.getAttribute('href');
+                    if (targetId === '#') return;
+                    const target = document.querySelector(targetId);
+                    if (target) {
+                        // Update active nav link
+                        document.querySelectorAll('nav a').forEach(link => link.classList.remove('active'));
+                        this.classList.add('active');
+                        
+                        // Close mobile menu if open
+                        const navMenu = document.getElementById('navMenu');
+                        const mobileMenuBtn = document.getElementById('mobileMenuBtn');
+                        if (navMenu.classList.contains('active')) {
+                            navMenu.classList.remove('active');
+                            mobileMenuBtn.innerHTML = '<i class="fas fa-bars"></i>';
+                        }
+                        
+                        // Scroll to target
+                        window.scrollTo({
+                            top: target.offsetTop - 80,
+                            behavior: 'smooth'
+                        });
+                    }
+                });
+            });
+        }
+
+        // Setup event listeners
+        function setupEventListeners() {
+            // Search
+            searchBtn.addEventListener('click', () => {
+                currentSearch = searchInput.value.trim().toLowerCase();
+                displayedCount = itemsPerLoad;
+                renderMedicines();
+                 document.getElementById('database').scrollIntoView({ behavior: 'smooth' });
+            });
+
+            searchInput.addEventListener('keyup', (e) => {
+                if (e.key === 'Enter') {
+                    currentSearch = searchInput.value.trim().toLowerCase();
+                    displayedCount = itemsPerLoad;
+                    renderMedicines();
+                    document.getElementById('database').scrollIntoView({ behavior: 'smooth' });
+                }
+            });
+
+            // Filter buttons
+            filterButtons.forEach(button => {
+                button.addEventListener('click', () => {
+                    filterButtons.forEach(btn => btn.classList.remove('active'));
+                    button.classList.add('active');
+                    currentFilter = button.dataset.filter;
+                    currentSearch = '';
+                    searchInput.value = '';
+                    displayedCount = itemsPerLoad;
+                    renderMedicines();
+                });
+            });
+
+            // Load more
+            loadMoreBtn.addEventListener('click', loadMore);
+
+            // Add medicine
+            addMedicineBtn.addEventListener('click', addMedicine);
+
+            // Mobile menu
+            const mobileMenuBtn = document.getElementById('mobileMenuBtn');
+            const navMenu = document.getElementById('navMenu');
+            
+            mobileMenuBtn.addEventListener('click', () => {
+                navMenu.classList.toggle('active');
+                mobileMenuBtn.innerHTML = navMenu.classList.contains('active') 
+                    ? '<i class="fas fa-times"></i>' 
+                    : '<i class="fas fa-bars"></i>';
+            });
+        }
+
+        // Modal functions for footer links
+        function showDisclaimer() {
+            alert(`MEDICAL DISCLAIMER:\n\nThis website provides educational information only. It is not a substitute for professional medical advice, diagnosis, or treatment. Always seek the advice of your physician or other qualified health provider with any questions you may have regarding a medical condition. Never disregard professional medical advice or delay in seeking it because of something you have read on this website.`);
+        }
+
+        function showPrivacy() {
+            alert(`PRIVACY POLICY:\n\nWe respect your privacy. We do not collect any personal information. All searches are anonymous. This website does not use cookies or track user behavior.`);
+        }
+
+        function showTerms() {
+            alert(`TERMS OF USE:\n\nBy using this website, you agree that:\n1. Information is for educational purposes only\n2. You will not use this information for self-diagnosis\n3. You will consult a healthcare professional for medical advice\n4. We are not liable for any decisions made based on this information`);
+        }
+
+        function showContact() {
+            alert(`CONTACT US:\n\nFor inquiries, please email: support@medicare-info.com\n\nEmergency Contacts:\n• Poison Control: 1-800-222-1222\n• Emergency Services: 911\n• FDA MedWatch: 1-800-FDA-1088`);
+        }
+
+        // Initialize on load
+        document.addEventListener('DOMContentLoaded', init);
+    </script>
+</body>
+</html>
